@@ -5,6 +5,9 @@ public class Movement : MonoBehaviour
     public float speed = 5f;
     private float movementX = 0;
 
+    public Rigidbody2D rb;
+    public Animator animator;
+
     void Update()
     {
         if (InputBlock.instance.GetInputBlockStatus())
@@ -13,7 +16,8 @@ public class Movement : MonoBehaviour
         }
 
         movementX = Input.GetAxis("Horizontal");
-        transform.position += Vector3.right * movementX * speed * Time.deltaTime;
+        rb.linearVelocityX = movementX * speed;
+        animator.SetFloat("Speed", Mathf.Abs(movementX));
     }
 
     public float GetInputX()

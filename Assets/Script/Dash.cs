@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
-    public float gravity_scale = 0f;
     public float dash_force = 10f;
     public float dash_time = 0.2f;
     public float dash_cooldown = 0.5f;
@@ -12,13 +11,10 @@ public class Dash : MonoBehaviour
     public bool isDashing = false;
     public bool isRight = true;
     public Rigidbody2D rb;
+    public Animator animator;
 
     private Coroutine DashingState;
 
-    private void Start()
-    {
-        gravity_scale = rb.gravityScale;
-    }
     private void Update()
     {
         dash_timer += Time.deltaTime;
@@ -50,6 +46,7 @@ public class Dash : MonoBehaviour
     }
     public void PlayerDash()
     {
+        animator.SetBool("Isjumping", true);
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0;
         if (isRight)
@@ -73,14 +70,16 @@ public class Dash : MonoBehaviour
         if (DashingState != null)
         {
             StopCoroutine(DashingState);
-            rb.gravityScale = gravity_scale;
+            animator.SetBool("Isjumping", false);
+            rb.linearVelocityX = 1.6f;
             isDashing = false;
         }
     }
     public IEnumerator DashState(float dash_time)
     {
         yield return new WaitForSeconds(dash_time);
-        rb.gravityScale = gravity_scale;
+        animator.SetBool("Isjumping", false);
+        rb.gravityScale = 1.6f;
         isDashing = false;
     }
 

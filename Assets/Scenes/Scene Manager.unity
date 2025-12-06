@@ -200,7 +200,7 @@ MonoBehaviour:
   - Stage 3
   - Stage 4
   - Stage 5
-  currentStage: 2
+  currentStage: 0
 --- !u!4 &1276276551
 Transform:
   m_ObjectHideFlags: 0

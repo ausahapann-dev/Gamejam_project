@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Jump : MonoBehaviour
@@ -6,12 +7,12 @@ public class Jump : MonoBehaviour
     public Rigidbody2D rb;
     public bool isJumped = false;
 
+    public Animator animator;
+
     private void Update()
     {
-        if (InputBlock.instance.GetInputBlockStatus())
-        {
-            return;
-        }
+        animator.SetFloat("VSpd", rb.linearVelocityY);
+
         if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumped = false;
@@ -28,6 +29,7 @@ public class Jump : MonoBehaviour
 
             if (Input.GetKey(KeyCode.Space) && !isJumped)
             {
+                animator.SetBool("Isjumping", true);
                 if (Input.GetKey(KeyCode.S))
                 {
                     isJumped = true;
@@ -44,6 +46,14 @@ public class Jump : MonoBehaviour
     public void PlayerJump()
     {
         gameObject.GetComponent<Dash>().CancelDash();
-        rb.linearVelocityY = jump_force;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForceY(jump_force, ForceMode2D.Impulse);
+        StartCoroutine(Jumping());
     }
+
+    public IEnumerator Jumping()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("Isjumping", false);
+    }    
 }

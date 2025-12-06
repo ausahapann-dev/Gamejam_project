@@ -2,17 +2,16 @@ using UnityEngine;
 
 public class Flip : MonoBehaviour
 {
-    public SpriteRenderer player_sprite;
-    void Update()
+    void FixedUpdate()
     {
         float InputX = gameObject.GetComponent<Movement>().GetInputX();
         if (InputX < 0)
         {
-            player_sprite.flipX = true;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         if (InputX > 0)
         {
-            player_sprite.flipX = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 }
