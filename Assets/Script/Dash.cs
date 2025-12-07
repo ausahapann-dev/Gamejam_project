@@ -11,18 +11,17 @@ public class Dash : MonoBehaviour
     public bool isDashing = false;
     public bool isRight = true;
     public Rigidbody2D rb;
+    private Movement player_movement;
     public Animator animator;
 
     private Coroutine DashingState;
 
+    private void Start()
+    {
+        player_movement = GetComponent<Movement>();
+    }
     private void Update()
     {
-        dash_timer += Time.deltaTime;
-
-        if (InputBlock.instance.GetInputBlockStatus())
-        {
-            return;
-        }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
@@ -31,6 +30,13 @@ public class Dash : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             isRight = false;
+        }
+
+        dash_timer += Time.deltaTime;
+
+        if (InputBlock.instance.GetInputBlockStatus())
+        {
+            return;
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -46,16 +52,18 @@ public class Dash : MonoBehaviour
     }
     public void PlayerDash()
     {
+        gameObject.GetComponent<Launch>().CancelLaunch();
+        CancelDash();
         animator.SetBool("Isjumping", true);
         rb.linearVelocity = Vector2.zero;
         rb.gravityScale = 0;
         if (isRight)
         {
-            rb.linearVelocityX = dash_force;
+            player_movement.SetDashVelocity(dash_force);
         }
         else
         {
-            rb.linearVelocityX = -dash_force;
+            player_movement.SetDashVelocity(-dash_force);
         }
         DashingState = StartCoroutine(DashState(dash_time));
     }
@@ -70,8 +78,9 @@ public class Dash : MonoBehaviour
         if (DashingState != null)
         {
             StopCoroutine(DashingState);
+            rb.gravityScale = 0;
             animator.SetBool("Isjumping", false);
-            rb.linearVelocityX = 1.6f;
+            player_movement.SetDashVelocity(0);
             isDashing = false;
         }
     }
@@ -80,6 +89,7 @@ public class Dash : MonoBehaviour
         yield return new WaitForSeconds(dash_time);
         animator.SetBool("Isjumping", false);
         rb.gravityScale = 1.6f;
+        player_movement.SetDashVelocity(0);
         isDashing = false;
     }
 

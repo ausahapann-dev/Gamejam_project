@@ -5,6 +5,7 @@ using UnityEngine;
 public class CutterLv0 : MonoBehaviour
 {
     public GameObject cutterScene;
+    public GameObject player;
     public bool interactable = false;
 
     private bool interacted = false;
@@ -21,6 +22,7 @@ public class CutterLv0 : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            player = collision.gameObject.transform.parent.gameObject;
             interactable = true;
         }
     }
@@ -34,7 +36,8 @@ public class CutterLv0 : MonoBehaviour
     }
 
     public IEnumerator CutterScene()
-    { 
+    {
+        player.GetComponent<Movement>().StopMovement();
         BlackFade.instance.FadeObjSetActive(true);
         cutterScene.SetActive(true);
         InputBlock.instance.SetInputBlockStatus(true);

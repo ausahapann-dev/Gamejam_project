@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        cameraYOffset = cameraZoom / 1.5f - 1f;
+        cameraYOffset = cameraZoom / 3 - 0.5f;
         transform.position = Vector3.Lerp(transform.position, player.position + Vector3.up * cameraYOffset + Vector3.forward * cameraZOffset, Time.deltaTime * cameraLerpSpeed1);
         Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, cameraZoom, Time.deltaTime * cameraLerpSpeed2);
     }

@@ -47,10 +47,17 @@ public class LoadStarterScene : MonoBehaviour
     public IEnumerator NextStage()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.UnloadSceneAsync(stages[currentStage]);
+        yield return SceneManager.UnloadSceneAsync(stages[currentStage]);
         currentStage++;
         SceneManager.LoadScene(stages[currentStage], LoadSceneMode.Additive);
-        StageReset();
+        if (currentStage != 5)
+        {
+            StageReset();
+        }
+        else
+        {
+            SceneManager.UnloadSceneAsync("Character Scene");
+        }
     }
     public void StageReset()
     {

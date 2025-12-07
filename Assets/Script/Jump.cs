@@ -46,6 +46,7 @@ public class Jump : MonoBehaviour
     public void PlayerJump()
     {
         gameObject.GetComponent<Dash>().CancelDash();
+        rb.gravityScale = 1.6f;
         rb.linearVelocity = Vector2.zero;
         rb.AddForceY(jump_force, ForceMode2D.Impulse);
         StartCoroutine(Jumping());

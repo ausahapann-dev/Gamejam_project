@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class OrbInteract : MonoBehaviour
@@ -42,7 +41,7 @@ public class OrbInteract : MonoBehaviour
     public IEnumerator InputBlockState()
     {
         InputBlock.instance.SetInputBlockStatus(true);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.35f);
         InputBlock.instance.SetInputBlockStatus(false);
     }
 }

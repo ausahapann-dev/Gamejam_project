@@ -16,7 +16,7 @@ public class BlackFadeClear : MonoBehaviour
 
     public void Activate()
     {
-        if (onFading == null)
+        if (onFading == null && BlackFadeFailed.instance.onFading == null && WhireFadeClear.instance.onFading == null)
         {
             onFading = StartCoroutine(Fade());
         }
